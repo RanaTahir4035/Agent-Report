@@ -128,7 +128,7 @@ const UploadAudioModal = ({ isOpen, onClose }) => {
         <div className="flex justify-end">
           <button
             onClick={handleSubmit}
-            className="bg-[#298F84] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#298F84]/90 transition-colors duration-200 w-[140px] h-[48px]"
+            className="bg-[#298F84] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#298F84]/90 transition-colors duration-200 md:w-[140px] w-[100px] md:h-[48px] h-[40px]"
           >
             Add
           </button>

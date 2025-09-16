@@ -72,7 +72,7 @@ const BasicDialog = ({
           {(title || showCloseButton) && (
             <div className="flex items-center justify-between px-6 py-4">
               {title && (
-                <div className="text-xl font-bold text-gray-900">
+                <div className="text-base sm:text-xl font-bold text-gray-900">
                   {title}
                 </div>
               )}

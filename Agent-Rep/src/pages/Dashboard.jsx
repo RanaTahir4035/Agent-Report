@@ -82,50 +82,50 @@ const Dashboard = () => {
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-bold text-[#202224]">150</p>
+              <p className="text-base sm:text-xl  font-bold text-[#202224]">150</p>
               <p className="text-xs font-weight-400 text-[#757575]">Total Calls Analyzed</p>
             </div>
-            <img src={callIcon} alt="total-calls-analyzed" className="w-12 h-12" />
+            <img src={callIcon} alt="total-calls-analyzed" className="md:w-12 w-8 md:h-12 h-8" />
           </div>
         </div>
 
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-bold text-[#202224]">20</p>
+              <p className="text-base sm:text-xl  font-bold text-[#202224]">20</p>
               <p className="text-xs font-weight-400 text-[#757575]">Failed Calls</p>
             </div>
-            <img src={missedCallsIcon} alt="total-calls-analyzed" className="w-12 h-12" />
+            <img src={missedCallsIcon} alt="total-calls-analyzed" className="md:w-12 w-8 md:h-12 h-8" />
           </div>
         </div>
 
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-bold text-[#202224]">85%</p>
+              <p className="text-base sm:text-xl  font-bold text-[#202224]">85%</p>
               <p className="text-xs font-weight-400 text-[#757575]">Average Call Quality Score</p>
             </div>
-            <img src={callQualityIcon} alt="total-calls-analyzed" className="w-12 h-12" />
+            <img src={callQualityIcon} alt="total-calls-analyzed" className="md:w-12 w-8 md:h-12 h-8" />
           </div>
         </div>
 
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-bold text-[#202224]">4m 30s</p>
+              <p className="text-base sm:text-xl  font-bold text-[#202224]">4m 30s</p>
               <p className="text-xs font-weight-400 text-[#757575]">Average Call Duration</p>
             </div>
-            <img src={callDurationIcon} alt="total-calls-analyzed" className="w-12 h-12" />
+            <img src={callDurationIcon} alt="total-calls-analyzed" className="md:w-12 w-8 md:h-12 h-8" />
           </div>
         </div>
 
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xl font-bold text-[#202224]">25</p>
+              <p className="text-base sm:text-xl  font-bold text-[#202224]">25</p>
               <p className="text-xs font-weight-400 text-[#757575]">Total Agents</p>
             </div>
-            <img src={agentsIcon} alt="total-calls-analyzed" className="w-12 h-12" />
+            <img src={agentsIcon} alt="total-calls-analyzed" className="md:w-12 w-8 md:h-12 h-8" />
           </div>
         </div>
       </div>
@@ -133,7 +133,7 @@ const Dashboard = () => {
       <div className="bg-white">
         <div className="px-6 py-4 bg-gray-50">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-[#202224]">Recent Agents</h2>
+            <h2 className="text-base sm:text-xl font-semibold text-[#202224]">Recent Agents</h2>
             <a href="#" className="text-[#298F84] font-medium">View all</a>
           </div>
         </div>

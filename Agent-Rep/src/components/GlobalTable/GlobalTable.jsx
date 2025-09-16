@@ -179,7 +179,7 @@ const GlobalTable = ({
                   return (
                     <td 
                       key={colIndex}
-                      className={`px-4 py-4 text-sm ${getAlignmentClass(column.align)} ${column.textColor || 'text-gray-900'}`}
+                      className={`px-2 sm:px-4 py-4 text-sm ${getAlignmentClass(column.align)} ${column.textColor || 'text-gray-900'}`}
                     >
                       {renderCellContent(item, column)}
                     </td>

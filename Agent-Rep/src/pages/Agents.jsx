@@ -113,7 +113,7 @@ const Agents = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div className="w-80">
+        <div className="md:w-80 sm:w-50 w-40">
           <SearchBar
             placeholder="Search"
             onSearch={handleSearch}
@@ -122,7 +122,7 @@ const Agents = () => {
         </div>
         <button
           onClick={handleOpenModal}
-          className="bg-[#E7F8F6] text-[#298F84] py-2 rounded-lg font-semibold text-sm transition-colors duration-200 w-[144px] h-[48px] border border-[#298F84] hover:bg-[#298F84] hover:text-white"
+          className="bg-[#E7F8F6] text-[#298F84] py-2 rounded-lg font-semibold md:text-sm text-[10px] transition-colors duration-200 md:w-[144px] w-[100px] md:h-[48px] h-[40px] border border-[#298F84] hover:bg-[#298F84] hover:text-white"
         >
           + Add New Agent
         </button>
@@ -184,7 +184,7 @@ const Agents = () => {
 
             <button
               type="submit"
-              className="px-4 py-2 bg-[#298F84] text-white rounded-lg hover:bg-[#1f6b5f] transition-colors duration-200 w-[144px] h-[48px]"
+              className="px-4 py-2 bg-[#298F84] text-white rounded-lg hover:bg-[#1f6b5f] transition-colors duration-200 md:w-[144px] w-[120px] md:h-[48px] h-[40px]"
             >
               Add
             </button>

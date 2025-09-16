@@ -124,12 +124,12 @@ const AgentCallDetails = () => {
   ];
 
   return (
-    <div className="p-6">
+    <div className="space-y-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-2">CALL-001</h1>
+        <h1 className="text-base sm:text-xl font-semibold text-gray-900 mb-2">CALL-001</h1>
       </div>
       
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <GlobalTable
           data={callData}
           columns={columns}
