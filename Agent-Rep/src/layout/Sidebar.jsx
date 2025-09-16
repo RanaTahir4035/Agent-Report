@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import userHeadset from '../assets/SideBar_icons/user-headset.svg'
 import dashboardIcon from '../assets/SideBar_icons/dashboard-icon.svg'
 import agentsIcon from '../assets/SideBar_icons/agents-icon.svg'
@@ -8,6 +9,16 @@ import logoutIcon from '../assets/SideBar_icons/logout-icon.svg'
 const Sidebar = ({ onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
   const menuItems = [
     {
       id: 'dashboard',
@@ -79,7 +90,10 @@ const Sidebar = ({ onClose }) => {
       </nav>
 
       <div className="p-4">
-        <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200">
+        <button 
+          onClick={handleLogout}
+          className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+        >
           <img src={logoutIcon} alt="logoutIcon" className="w-5 h-5" />
           <span className="font-base">Logout</span>
         </button>

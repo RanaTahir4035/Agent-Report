@@ -1,7 +1,9 @@
 import React from 'react';
 import { SearchBar } from './index';
+import UserDropdown from './UserDropdown';
 
 const Header = ({ title, children, onSearch, showSearch = true, onToggleSidebar, sidebarOpen }) => {
+
   return (
     <header className="bg-gray-50 border-b border-gray-200 px-6 py-4">
       <div className="flex items-center justify-between">
@@ -27,6 +29,9 @@ const Header = ({ title, children, onSearch, showSearch = true, onToggleSidebar,
         
         <div className="flex items-center space-x-4">
           {children}
+          
+          {/* User Dropdown */}
+          <UserDropdown />
         </div>
       </div>
     </header>
