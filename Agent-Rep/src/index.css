@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Apply Plus Jakarta Sans globally */
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Ensure all elements inherit the font family */
+* {
+  font-family: inherit;
+}

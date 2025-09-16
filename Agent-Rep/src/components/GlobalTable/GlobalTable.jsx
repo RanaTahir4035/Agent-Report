@@ -98,6 +98,37 @@ const GlobalTable = ({
             ))}
           </div>
         );
+      case 'conversation':
+        return (
+          <div className="flex items-start space-x-3">
+            {column.showAvatar && (
+              <div className="flex-shrink-0">
+                <div className={`h-8 w-8 rounded-full ${column.avatarBgClass || 'bg-teal-100'} flex items-center justify-center`}>
+                  <span className={`text-xs font-medium ${column.avatarTextClass || 'text-teal-600'}`}>
+                    {column.getInitials ? column.getInitials(value) : value?.charAt(0) || '?'}
+                  </span>
+                </div>
+              </div>
+            )}
+            <div className="flex-1 min-w-0">
+              <p className={`text-sm ${column.textColor || 'text-gray-900'} truncate`} title={value}>
+                {value}
+              </p>
+            </div>
+          </div>
+        );
+      case 'score':
+        return (
+          <span className="text-sm font-semibold text-gray-900">
+            {value}
+          </span>
+        );
+      case 'category':
+        return (
+          <span className="text-sm text-gray-900">
+            {value}
+          </span>
+        );
       case 'custom':
         return column.render ? column.render(item) : value;
       default:
@@ -109,29 +140,51 @@ const GlobalTable = ({
     <div className={`bg-white ${className}`}>
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-white">
             <tr>
-              {columns.map((column, index) => (
-                <th 
-                  key={index}
-                  className={`px-6 py-3 text-${column.align || 'left'} text-sm font-semibold text-[#202224]`}
-                >
-                  {column.title}
-                </th>
-              ))}
+              {columns.map((column, index) => {
+                const getAlignmentClass = (align) => {
+                  switch(align) {
+                    case 'start': return 'text-left';
+                    case 'center': return 'text-center';
+                    case 'end': return 'text-right';
+                    default: return 'text-left';
+                  }
+                };
+                
+                return (
+                  <th 
+                    key={index}
+                    className={`px-4 py-3 ${getAlignmentClass(column.align)} text-sm font-medium text-gray-700 border-b border-gray-200`}
+                  >
+                    {column.title}
+                  </th>
+                );
+              })}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white">
             {data.map((item, rowIndex) => (
-              <tr key={rowIndex}>
-                {columns.map((column, colIndex) => (
-                  <td 
-                    key={colIndex}
-                    className={`px-6 py-4 whitespace-nowrap text-sm ${column.textColor || 'text-gray-500'}`}
-                  >
-                    {renderCellContent(item, column)}
-                  </td>
-                ))}
+              <tr key={rowIndex} className="border-b border-gray-100 hover:bg-gray-50">
+                {columns.map((column, colIndex) => {
+                  const getAlignmentClass = (align) => {
+                    switch(align) {
+                      case 'start': return 'text-left';
+                      case 'center': return 'text-center';
+                      case 'end': return 'text-right';
+                      default: return 'text-left';
+                    }
+                  };
+                  
+                  return (
+                    <td 
+                      key={colIndex}
+                      className={`px-4 py-4 text-sm ${getAlignmentClass(column.align)} ${column.textColor || 'text-gray-900'}`}
+                    >
+                      {renderCellContent(item, column)}
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>

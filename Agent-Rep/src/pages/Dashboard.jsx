@@ -7,7 +7,6 @@ import agentsIcon from '../assets/Dashbaord-stats/total-agent.svg'
 import GlobalTable from '../components/GlobalTable/GlobalTable'
 
 const Dashboard = () => {
-  // Sample data for the Recent Agents table
   const recentAgentsData = [
     { id: 1, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" },
     { id: 2, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 7, status: "Good" },
@@ -21,7 +20,6 @@ const Dashboard = () => {
     { id: 10, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" }
   ];
 
-  // Column configuration for the Recent Agents table
   const recentAgentsColumns = [
     {
       title: "Agent Name",
@@ -37,13 +35,13 @@ const Dashboard = () => {
       title: "Total Calls",
       key: "totalCalls",
       type: "default",
-      align: "start"
+      align: "left"
     },
     {
       title: "Average Score",
       key: "averageScore", 
       type: "default",
-      align: "start"
+      align: "left"
     },
     {
       title: "Status",
@@ -62,11 +60,10 @@ const Dashboard = () => {
       title: "Action",
       key: "actions",
       type: "actions",
-      align: "start"
+      align: "left"
     }
   ];
 
-  // Action handlers
   const handleView = (item) => {
     console.log("View agent:", item);
   };
@@ -81,7 +78,6 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6">
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
@@ -134,7 +130,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Recent Agents Table */}
       <div className="bg-white">
         <div className="px-6 py-4 bg-gray-50">
           <div className="flex items-center justify-between">

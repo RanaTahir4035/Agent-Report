@@ -1,184 +1,196 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SearchBar } from '../components';
+import GlobalTable from '../components/GlobalTable/GlobalTable';
+import BasicDialog from '../components/BasicDialog/BasicDialog';
 
 const Agents = () => {
+  const navigate = useNavigate();
+  const recentAgentsData = [
+    { id: 1, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" },
+    { id: 2, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 7, status: "Good" },
+    { id: 3, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 6, status: "Average" },
+    { id: 4, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" },
+    { id: 5, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 7, status: "Good" },
+    { id: 6, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 6, status: "Average" },
+    { id: 7, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" },
+    { id: 8, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 7, status: "Good" },
+    { id: 9, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 6, status: "Average" },
+    { id: 10, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" }
+  ];
+
+  const recentAgentsColumns = [
+    {
+      title: "Agent Name",
+      key: "name",
+      type: "default"
+    },
+    {
+      title: "Email",
+      key: "email",
+      type: "default"
+    },
+    {
+      title: "Total Calls",
+      key: "totalCalls",
+      type: "default",
+      align: "left"
+    },
+    {
+      title: "Average Score",
+      key: "averageScore",
+      type: "default",
+      align: "left"
+    },
+    {
+      title: "Status",
+      key: "status",
+      type: "badge",
+      badgeClass: (value) => {
+        switch (value) {
+          case "Excellent": return "bg-[#34C759] text-white w-[86px] text-center";
+          case "Good": return "bg-[#007AFF] text-white w-[86px] text-center";
+          case "Average": return "bg-[#FFCC00] text-white w-[86px] text-center";
+          default: return "bg-gray-100 text-gray-800 text-center";
+        }
+      }
+    },
+    {
+      title: "Action",
+      key: "actions",
+      type: "actions",
+      align: "left"
+    }
+  ];
+
+  const handleView = (item) => {
+    console.log("View agent:", item);
+    navigate(`/agent/${item.id}`);
+  };
+
+  const handleEdit = (item) => {
+    console.log("Edit agent:", item);
+  };
+
+  const handleDelete = (item) => {
+    console.log("Delete agent:", item);
+  };
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: ''
+  });
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    console.log('Searching agents for:', term);
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setFormData({ name: '', email: '' });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Adding new agent:', formData);
+    handleCloseModal();
+  };
+
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Agents Management</h1>
-        <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-          Add New Agent
+        <div className="w-80">
+          <SearchBar
+            placeholder="Search"
+            onSearch={handleSearch}
+            size="medium"
+          />
+        </div>
+        <button
+          onClick={handleOpenModal}
+          className="bg-[#E7F8F6] text-[#298F84] py-2 rounded-lg font-semibold text-sm transition-colors duration-200 w-[144px] h-[48px] border border-[#298F84] hover:bg-[#298F84] hover:text-white"
+        >
+          + Add New Agent
         </button>
       </div>
 
-      {/* Agents Table */}
-      <div className="bg-white rounded-xl border border-gray-200">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900">All Agents</h2>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search agents..."
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                />
-                <svg className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <select className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                <option>All Status</option>
-                <option>Active</option>
-                <option>Inactive</option>
-              </select>
-            </div>
+      <GlobalTable
+        data={recentAgentsData}
+        columns={recentAgentsColumns}
+        title="Recent Agents"
+        showActions={true}
+        onView={handleView}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        showHeader={true}
+        showSearch={false}
+        showFilters={false}
+      />
+
+      <BasicDialog
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        title="Add Agent"
+        size="md"
+      >
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              Agent Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              placeholder="Enter agent name"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#298F84] focus:border-transparent"
+              required
+            />
           </div>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Agent Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Calls</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Average Score</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              <tr>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10">
-                      <div className="h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center">
-                        <span className="text-sm font-medium text-teal-600">JD</span>
-                      </div>
-                    </div>
-                    <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900">John Doe</div>
-                      <div className="text-sm text-gray-500">Agent ID: #001</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">johndoe@gmail.com</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">+1 (555) 123-4567</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">150</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">9.2</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex space-x-2">
-                    <button className="text-teal-600 hover:text-teal-900">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    </button>
-                    <button className="text-blue-600 hover:text-blue-900">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                      </svg>
-                    </button>
-                    <button className="text-red-600 hover:text-red-900">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10">
-                      <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                        <span className="text-sm font-medium text-blue-600">JS</span>
-                      </div>
-                    </div>
-                    <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900">Jane Smith</div>
-                      <div className="text-sm text-gray-500">Agent ID: #002</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">janesmith@gmail.com</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">+1 (555) 234-5678</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">120</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">8.7</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex space-x-2">
-                    <button className="text-teal-600 hover:text-teal-900">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    </button>
-                    <button className="text-blue-600 hover:text-blue-900">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                      </svg>
-                    </button>
-                    <button className="text-red-600 hover:text-red-900">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10">
-                      <div className="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
-                        <span className="text-sm font-medium text-purple-600">MJ</span>
-                      </div>
-                    </div>
-                    <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900">Mike Johnson</div>
-                      <div className="text-sm text-gray-500">Agent ID: #003</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">mikejohnson@gmail.com</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">+1 (555) 345-6789</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">95</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">7.8</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Inactive</span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex space-x-2">
-                    <button className="text-teal-600 hover:text-teal-900">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    </button>
-                    <button className="text-blue-600 hover:text-blue-900">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                      </svg>
-                    </button>
-                    <button className="text-red-600 hover:text-red-900">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="Enter email"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#298F84] focus:border-transparent"
+              required
+            />
+          </div>
+
+          <div className="flex justify-end space-x-3 pt-4">
+
+            <button
+              type="submit"
+              className="px-4 py-2 bg-[#298F84] text-white rounded-lg hover:bg-[#1f6b5f] transition-colors duration-200 w-[144px] h-[48px]"
+            >
+              Add
+            </button>
+          </div>
+        </form>
+      </BasicDialog>
     </div>
   );
 };

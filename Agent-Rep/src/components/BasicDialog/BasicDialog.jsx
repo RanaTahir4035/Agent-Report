@@ -53,7 +53,10 @@ const BasicDialog = ({
       onClick={handleBackdropClick}
     >
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+      <div 
+        className="fixed inset-0 bg-black opacity-50 transition-opacity" 
+        onClick={handleBackdropClick}
+      />
       
       {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
@@ -67,11 +70,11 @@ const BasicDialog = ({
         >
           {/* Header */}
           {(title || showCloseButton) && (
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+            <div className="flex items-center justify-between px-6 py-4">
               {title && (
-                <h3 className="text-lg font-semibold text-gray-900">
+                <div className="text-xl font-bold text-gray-900">
                   {title}
-                </h3>
+                </div>
               )}
               {showCloseButton && (
                 <button
