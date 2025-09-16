@@ -5,7 +5,7 @@ import dashboardIcon from '../assets/SideBar_icons/dashboard-icon.svg'
 import agentsIcon from '../assets/SideBar_icons/agents-icon.svg'
 import logoutIcon from '../assets/SideBar_icons/logout-icon.svg'
 
-const Sidebar = () => {
+const Sidebar = ({ onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const menuItems = [
@@ -29,16 +29,29 @@ const Sidebar = () => {
 
   const handleItemClick = (path) => {
     navigate(path);
+    if (onClose) {
+      onClose();
+    }
   };
 
   return (
-    <aside className="w-55 bg-white min-h-screen flex flex-col border-r border-gray-200">
-      {/* Logo */}
-      <div className="p-6 flex justify-center items-center my-6">
+    <aside className="w-55 bg-white h-screen flex flex-col border-r border-gray-200 shadow-lg">
+      <div className="p-6 flex items-center justify-center my-6 relative">
         <img src={userHeadset} alt="userHeadset" className="w-[36px] h-[36px]" />
+        
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="lg:hidden absolute right-6 p-2 rounded-md text-gray-600 hover:text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500 transition-colors duration-200"
+            aria-label="Close sidebar"
+          >
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 p-4">
         <ul className="space-y-2">
           {menuItems.map((item) => {
@@ -65,7 +78,6 @@ const Sidebar = () => {
         </ul>
       </nav>
 
-      {/* Logout */}
       <div className="p-4">
         <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors duration-200">
           <img src={logoutIcon} alt="logoutIcon" className="w-5 h-5" />
