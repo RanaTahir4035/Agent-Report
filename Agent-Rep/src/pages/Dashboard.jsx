@@ -8,10 +8,8 @@ import GlobalTable from '../components/GlobalTable/GlobalTable'
 import { useGetUsersQuery } from '../store/api/usersApi'
 
 const Dashboard = () => {
-  // Fetch users from API
   const { data: usersData, error, isLoading } = useGetUsersQuery();
   
-  // Use API data if available, otherwise fallback to static data
   const recentAgentsData = usersData || [
     { id: 1, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" },
     { id: 2, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 7, status: "Good" },
@@ -81,7 +79,6 @@ const Dashboard = () => {
     console.log("Delete agent:", item);
   };
 
-  // Show loading state
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -156,7 +153,6 @@ const Dashboard = () => {
     );
   }
 
-  // Show error state
   if (error) {
     return (
       <div className="space-y-6">

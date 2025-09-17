@@ -20,7 +20,6 @@ const GlobalTable = ({
   filterOptions = [],
   onFilter = () => {}
 }) => {
-  // Default action buttons if showActions is true
   const defaultActions = [
     {
       icon: eyeIcon,
@@ -41,8 +40,7 @@ const GlobalTable = ({
       className: "text-red-600 hover:text-red-900"
     }
   ];
-
-  // Render cell content based on column type
+  
   const renderCellContent = (item, column) => {
     const value = item[column.key];
     

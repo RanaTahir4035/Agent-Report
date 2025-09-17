@@ -8,10 +8,8 @@ import { useGetUsersQuery } from '../store/api/usersApi';
 const Agents = () => {
   const navigate = useNavigate();
   
-  // Fetch users from API
   const { data: usersData, error, isLoading } = useGetUsersQuery();
   
-  // Use API data if available, otherwise fallback to static data
   const recentAgentsData = usersData || [
     { id: 1, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" },
     { id: 2, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 7, status: "Good" },
@@ -116,7 +114,6 @@ const Agents = () => {
     handleCloseModal();
   };
 
-  // Show loading state
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -128,7 +125,6 @@ const Agents = () => {
     );
   }
 
-  // Show error state
   if (error) {
     return (
       <div className="flex items-center justify-center h-64">
