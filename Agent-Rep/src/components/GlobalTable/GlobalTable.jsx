@@ -155,7 +155,7 @@ const GlobalTable = ({
                 return (
                   <th 
                     key={index}
-                    className={`px-4 py-3 ${getAlignmentClass(column.align)} text-sm font-medium text-gray-700 border-b border-gray-200`}
+                    className={`px-4 py-3 ${getAlignmentClass(column.align)} text-sm font-semibold text-black bg-gray-50`}
                   >
                     {column.title}
                   </th>
@@ -165,7 +165,7 @@ const GlobalTable = ({
           </thead>
           <tbody className="bg-white">
             {data.map((item, rowIndex) => (
-              <tr key={rowIndex} className="border-b border-gray-100 hover:bg-gray-50">
+              <tr key={rowIndex} className="border-b-4 border-gray-100 hover:bg-gray-50">
                 {columns.map((column, colIndex) => {
                   const getAlignmentClass = (align) => {
                     switch(align) {

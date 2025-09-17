@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { useAuthApi } from "../hooks/useAuthApi";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -9,7 +10,8 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   
-  const { login } = useAuth();
+  const { login: firebaseLogin } = useAuth();
+  const { login: apiLogin, isLoginLoading } = useAuthApi();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -23,8 +25,28 @@ const Login = () => {
     try {
       setError("");
       setIsLoading(true);
-      await login(email, password);
-      navigate("/dashboard");
+      
+      try {
+        const apiResult = await apiLogin(email, password);
+        console.log("Dummy JSON API Login successful:", apiResult);
+        
+        localStorage.setItem('apiToken', apiResult.token);
+        localStorage.setItem('user', JSON.stringify({
+          id: apiResult.id,
+          username: apiResult.username,
+          email: apiResult.email,
+          firstName: apiResult.firstName,
+          lastName: apiResult.lastName,
+          image: apiResult.image
+        }));
+        
+        navigate("/dashboard");
+        return;
+      } catch (apiError) {
+        console.log("Dummy JSON API login failed, trying Firebase:", apiError.message);
+        await firebaseLogin(email, password);
+        navigate("/dashboard");
+      }
     } catch (error) {
       setError("Failed to sign in. Please check your credentials.");
       console.error("Login error:", error);
@@ -112,10 +134,10 @@ const Login = () => {
         </div>
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || isLoginLoading}
           className="w-full bg-[#298F84] disabled:bg-[#298F84]/40 text-white font-semibold py-3 rounded-md shadow transition"
         >
-          {isLoading ? "Signing in..." : "Sign in"}
+          {(isLoading || isLoginLoading) ? "Signing in..." : "Sign in"}
         </button>
       </form>
     </div>

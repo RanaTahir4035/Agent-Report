@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Sidebar from './Sidebar';
-import { UploadAudioModal } from '../components';
+import { UploadAudioModal, Pagination } from '../components';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(5);
+  const [totalItems, setTotalItems] = useState(50);
 
   const getPageTitle = () => {
     switch (location.pathname) {
@@ -38,6 +41,11 @@ const Layout = ({ children }) => {
     console.log('Global search term:', term);
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    console.log('Page changed to:', page);
+  };
+
   return (
     <div className="flex h-screen bg-gray-100">
       <div className="hidden lg:block">
@@ -59,15 +67,26 @@ const Layout = ({ children }) => {
         >
           <button 
             onClick={() => setUploadModalOpen(true)}
-            className="bg-[#298F84] text-white md:px-6 px-1.5 py-3 rounded-lg font-medium flex items-center space-x-2 transition-colors duration-200 md:w-[180px]  w-[120px] md:h-[44px] hover:bg-[#298F84]/90"
+            className="bg-[#298F84] text-white md:px-6 px-3 py-3 rounded-lg font-medium flex items-center justify-center md:justify-start md:space-x-2 transition-colors duration-200 md:w-[180px] w-[44px] md:h-[44px] hover:bg-[#298F84]/90"
           >
             <img src="/src/assets/Mp3-button/upload-file.svg" alt="Upload" className="w-5 h-5" />
-            <span className="font-semibold text-[10px] md:text-[12px] " >Upload MP3 File</span>
+            <span className="font-semibold text-[10px] md:text-[12px] hidden md:block">Upload MP3 File</span>
           </button>
         </Header>
 
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
           {children}
+          
+          {/* Pagination Component */}
+          <div className="mt-6">
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalItems={totalItems}
+              itemsPerPage={10}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </main>
       </div>
 
