@@ -2,6 +2,7 @@ import React from 'react';
 import eyeIcon from '../../assets/Action-icons/eye-icon.svg';
 import editIcon from '../../assets/Action-icons/edit-icon.svg';
 import removeIcon from '../../assets/Action-icons/remove-icon.svg';
+import Pagination from '../Pagination/Pagination';
 
 const GlobalTable = ({ 
   data = [], 
@@ -18,7 +19,13 @@ const GlobalTable = ({
   onSearch = () => {},
   showFilters = false,
   filterOptions = [],
-  onFilter = () => {}
+  onFilter = () => {},
+  // Pagination props
+  currentPage = 1,
+  itemsPerPage = 10,
+  totalItems = 0,
+  onPageChange = () => {},
+  showPagination = false
 }) => {
   const defaultActions = [
     {
@@ -41,6 +48,12 @@ const GlobalTable = ({
     }
   ];
   
+  // Calculate pagination data
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = data.slice(startIndex, endIndex);
+
   const renderCellContent = (item, column) => {
     const value = item[column.key];
     
@@ -161,8 +174,8 @@ const GlobalTable = ({
               })}
             </tr>
           </thead>
-          <tbody className="bg-white">
-            {data.map((item, rowIndex) => (
+          <tbody>
+            {paginatedData.map((item, rowIndex) => (
               <tr key={rowIndex} className="border-b-4 border-gray-100 hover:bg-gray-50">
                 {columns.map((column, colIndex) => {
                   const getAlignmentClass = (align) => {
@@ -192,6 +205,19 @@ const GlobalTable = ({
       {data.length === 0 && (
         <div className="text-center py-8">
           <p className="text-gray-500">No data available</p>
+        </div>
+      )}
+      
+      {/* Pagination Component */}
+      {showPagination && data.length > 0 && (
+        <div className=" bg-gray-50">
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            onPageChange={onPageChange}
+          />
         </div>
       )}
     </div>

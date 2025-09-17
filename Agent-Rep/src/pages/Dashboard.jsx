@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import callIcon from '../assets/Dashbaord-stats/call-icon.svg'
 import callDurationIcon from '../assets/Dashbaord-stats/call-duration.svg'
 import missedCallsIcon from '../assets/Dashbaord-stats/missed-call.svg'
@@ -10,18 +10,18 @@ import { useGetUsersQuery } from '../store/api/usersApi'
 const Dashboard = () => {
   const { data: usersData, error, isLoading } = useGetUsersQuery();
   
-  const recentAgentsData = usersData || [
-    { id: 1, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" },
-    { id: 2, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 7, status: "Good" },
-    { id: 3, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 6, status: "Average" },
-    { id: 4, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" },
-    { id: 5, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 7, status: "Good" },
-    { id: 6, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 6, status: "Average" },
-    { id: 7, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" },
-    { id: 8, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 7, status: "Good" },
-    { id: 9, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 6, status: "Average" },
-    { id: 10, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" }
-  ];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  
+  const recentAgentsData = usersData || [];
+  
+  const totalAgents = usersData ? usersData.length : 0;
+  const totalCalls = usersData ? usersData.reduce((sum, agent) => sum + agent.totalCalls, 0) : 0;
+  const averageScore = usersData && usersData.length > 0 
+    ? Math.round(usersData.reduce((sum, agent) => sum + agent.averageScore, 0) / usersData.length) 
+    : 0;
+  const excellentAgents = usersData ? usersData.filter(agent => agent.status === 'Excellent').length : 0;
+  const failedCalls = usersData ? usersData.filter(agent => agent.status === 'Average').length : 0;
 
   const recentAgentsColumns = [
     {
@@ -77,6 +77,10 @@ const Dashboard = () => {
 
   const handleDelete = (item) => {
     console.log("Delete agent:", item);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   if (isLoading) {
@@ -220,7 +224,7 @@ const Dashboard = () => {
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <p className="text-red-600 mb-4">Failed to load agents</p>
-            <p className="text-gray-600">Using fallback data</p>
+            <p className="text-gray-600">Unable to fetch data from API</p>
           </div>
         </div>
       </div>
@@ -233,7 +237,7 @@ const Dashboard = () => {
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base sm:text-xl  font-bold text-[#202224]">150</p>
+              <p className="text-base sm:text-xl  font-bold text-[#202224]">{totalCalls}</p>
               <p className="text-xs font-weight-400 text-[#757575]">Total Calls Analyzed</p>
             </div>
             <img src={callIcon} alt="total-calls-analyzed" className="md:w-12 w-8 md:h-12 h-8" />
@@ -243,7 +247,7 @@ const Dashboard = () => {
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base sm:text-xl  font-bold text-[#202224]">20</p>
+              <p className="text-base sm:text-xl  font-bold text-[#202224]">{failedCalls}</p>
               <p className="text-xs font-weight-400 text-[#757575]">Failed Calls</p>
             </div>
             <img src={missedCallsIcon} alt="total-calls-analyzed" className="md:w-12 w-8 md:h-12 h-8" />
@@ -253,7 +257,7 @@ const Dashboard = () => {
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base sm:text-xl  font-bold text-[#202224]">85%</p>
+              <p className="text-base sm:text-xl  font-bold text-[#202224]">{averageScore}/10</p>
               <p className="text-xs font-weight-400 text-[#757575]">Average Call Quality Score</p>
             </div>
             <img src={callQualityIcon} alt="total-calls-analyzed" className="md:w-12 w-8 md:h-12 h-8" />
@@ -273,7 +277,7 @@ const Dashboard = () => {
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base sm:text-xl  font-bold text-[#202224]">25</p>
+              <p className="text-base sm:text-xl  font-bold text-[#202224]">{totalAgents}</p>
               <p className="text-xs font-weight-400 text-[#757575]">Total Agents</p>
             </div>
             <img src={agentsIcon} alt="total-calls-analyzed" className="md:w-12 w-8 md:h-12 h-8" />
@@ -300,6 +304,11 @@ const Dashboard = () => {
         showHeader={true}
         showSearch={false}
         showFilters={false}
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={recentAgentsData.length}
+        onPageChange={handlePageChange}
+        showPagination={true}
       />
     </div>
   );

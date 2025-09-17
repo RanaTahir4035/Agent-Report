@@ -25,7 +25,6 @@ const Pagination = ({
     return page.toString().padStart(2, '0');
   };
 
-  // Calculate display info based on totalItems if provided
   const getDisplayInfo = () => {
     if (totalItems > 0) {
       const startItem = (currentPage - 1) * itemsPerPage + 1;
@@ -39,18 +38,18 @@ const Pagination = ({
     <div className={`flex items-center justify-between ${className}`}>
       {/* Page Info */}
       {showInfo && (
-        <div className="text-gray-600 text-sm font-medium">
+        <div className="text-gray-600 text-sm font-medium mt-6">
           {getDisplayInfo()}
         </div>
       )}
 
       {/* Navigation Controls */}
-      <div className="flex items-center bg-gray-100 rounded-lg border border-gray-200 shadow-sm">
+      <div className="flex items-center bg-gray-100 rounded-lg border border-gray-200 shadow-sm mt-6">
         {/* Previous Button */}
         <button
           onClick={handlePrevious}
           disabled={currentPage <= 1}
-          className={`p-3 rounded-l-lg transition-colors duration-200 ${
+          className={`px-3 py-2 rounded-l-lg transition-colors duration-200 ${
             currentPage <= 1
               ? 'text-gray-400 cursor-not-allowed'
               : 'text-gray-600 hover:text-gray-800 hover:bg-gray-200'
@@ -73,13 +72,13 @@ const Pagination = ({
         </button>
 
         {/* Divider */}
-        <div className="w-px h-6 bg-gray-300"></div>
+        <div className="w-px h-5 bg-gray-300"></div>
 
         {/* Next Button */}
         <button
           onClick={handleNext}
           disabled={currentPage >= totalPages}
-          className={`p-3 rounded-r-lg transition-colors duration-200 ${
+          className={`px-3 py-2 rounded-r-lg transition-colors duration-200 ${
             currentPage >= totalPages
               ? 'text-gray-400 cursor-not-allowed'
               : 'text-gray-600 hover:text-gray-800 hover:bg-gray-200'
