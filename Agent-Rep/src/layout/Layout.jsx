@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Sidebar from './Sidebar';
-import { UploadAudioModal } from '../components';
+import { UploadAudioModal, Pagination } from '../components';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(5);
+  const [totalItems, setTotalItems] = useState(50);
 
   const getPageTitle = () => {
     switch (location.pathname) {
@@ -36,6 +39,11 @@ const Layout = ({ children }) => {
   const handleSearch = (term) => {
     setSearchTerm(term);
     console.log('Global search term:', term);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    console.log('Page changed to:', page);
   };
 
   return (
@@ -68,6 +76,17 @@ const Layout = ({ children }) => {
 
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
           {children}
+          
+          {/* Pagination Component */}
+          <div className="mt-6">
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalItems={totalItems}
+              itemsPerPage={10}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </main>
       </div>
 

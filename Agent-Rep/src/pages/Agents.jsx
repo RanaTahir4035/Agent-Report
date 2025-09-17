@@ -3,10 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { SearchBar } from '../components';
 import GlobalTable from '../components/GlobalTable/GlobalTable';
 import BasicDialog from '../components/BasicDialog/BasicDialog';
+import { useGetUsersQuery } from '../store/api/usersApi';
 
 const Agents = () => {
   const navigate = useNavigate();
-  const recentAgentsData = [
+  
+  // Fetch users from API
+  const { data: usersData, error, isLoading } = useGetUsersQuery();
+  
+  // Use API data if available, otherwise fallback to static data
+  const recentAgentsData = usersData || [
     { id: 1, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 9, status: "Excellent" },
     { id: 2, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 7, status: "Good" },
     { id: 3, name: "John Doe", email: "johndoe@gmail.com", totalCalls: 50, averageScore: 6, status: "Average" },
@@ -109,6 +115,30 @@ const Agents = () => {
     console.log('Adding new agent:', formData);
     handleCloseModal();
   };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#298F84] mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading agents...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Failed to load agents</p>
+          <p className="text-gray-600">Using fallback data</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
