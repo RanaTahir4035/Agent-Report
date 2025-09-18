@@ -71,17 +71,24 @@ const Sidebar = ({ onClose }) => {
               <li key={item.id}>
                 <button
                   onClick={() => handleItemClick(item.path)}
-                  className={`w-[184px] flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors duration-200 ${
+                  className={`w-[184px] flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors duration-200 relative group ${
                     isActive
                       ? 'text-white'
                       : 'text-menu-text hover:bg-gray-100'
                   }`}
                   style={isActive ? { backgroundColor: '#298F84' } : {}}
+                  title={item.label}
                 >
                   <div className={`${isActive ? 'brightness-0 invert' : ''}`}>
                     {item.icon}
                   </div>
                   <span className="text-base font-semibold">{item.label}</span>
+                  
+                  {/* Tooltip */}
+                  {/* <div className="absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-sm rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
+                    {item.label}
+                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-2 h-2 bg-gray-800 rotate-45"></div>
+                  </div> */}
                 </button>
               </li>
             );

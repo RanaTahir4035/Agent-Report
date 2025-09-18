@@ -59,7 +59,7 @@ const Layout = ({ children }) => {
         >
           <button 
             onClick={() => setUploadModalOpen(true)}
-            className="bg-[#298F84] text-white md:px-6 px-3 py-3 rounded-lg font-medium flex items-center justify-center md:justify-start md:space-x-2 transition-colors duration-200 md:w-[180px] w-[44px] md:h-[44px] hover:bg-[#298F84]/90"
+            className="bg-[#298F84] text-white mx-auto md:px-6 px-3 py-3 rounded-lg font-medium flex items-center justify-center md:justify-start md:space-x-2 transition-colors duration-200 md:w-[180px] w-[44px] md:h-[44px] hover:bg-[#298F84]/90"
           >
             <img src="/src/assets/Mp3-button/upload-file.svg" alt="Upload" className="w-5 h-5" />
             <span className="font-semibold text-[10px] md:text-[12px] hidden md:block">Upload MP3 File</span>
