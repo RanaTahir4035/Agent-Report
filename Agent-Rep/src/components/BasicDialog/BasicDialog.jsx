@@ -79,7 +79,7 @@ const BasicDialog = ({
               {showCloseButton && (
                 <button
                   onClick={onClose}
-                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200 cursor-pointer"
                   aria-label="Close modal"
                 >
                   <svg 

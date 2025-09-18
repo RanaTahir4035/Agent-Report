@@ -21,8 +21,8 @@ const transformUsers = (users) => {
   });
 };
 
-export const usersApi = createApi({
-  reducerPath: 'usersApi',
+export const dashboardApi = createApi({
+  reducerPath: 'dashboardApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://dummyjson.com',
     prepareHeaders: (headers) => {
@@ -30,31 +30,21 @@ export const usersApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Users'],
+  tagTypes: ['DashboardUsers'],
   endpoints: (builder) => ({
-    getUsers: builder.query({
+    getDashboardUsers: builder.query({
       query: () => '/users',
       transformResponse: (response) => {
         const transformedUsers = transformUsers(response.users);
         
-        // Filter out deleted users from localStorage
-        const deletedIds = JSON.parse(localStorage.getItem('deletedUserIds') || '[]');
+        const deletedIds = JSON.parse(localStorage.getItem('dashboardDeletedUserIds') || '[]');
         return transformedUsers.filter(user => !deletedIds.includes(user.id));
       },
-      providesTags: ['Users'],
-    }),
-    
-    getUserById: builder.query({
-      query: (id) => `/users/${id}`,
-      transformResponse: (response) => {
-        return transformUsers([response])[0];
-      },
-      providesTags: (result, error, id) => [{ type: 'Users', id }],
+      providesTags: ['DashboardUsers'],
     }),
   }),
 });
 
 export const {
-  useGetUsersQuery,
-  useGetUserByIdQuery,
-} = usersApi;
+  useGetDashboardUsersQuery,
+} = dashboardApi;

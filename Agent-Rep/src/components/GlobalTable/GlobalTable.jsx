@@ -2,6 +2,7 @@ import React from 'react';
 import eyeIcon from '../../assets/Action-icons/eye-icon.svg';
 import editIcon from '../../assets/Action-icons/edit-icon.svg';
 import removeIcon from '../../assets/Action-icons/remove-icon.svg';
+import Pagination from '../Pagination/Pagination';
 
 const GlobalTable = ({ 
   data = [], 
@@ -18,9 +19,13 @@ const GlobalTable = ({
   onSearch = () => {},
   showFilters = false,
   filterOptions = [],
-  onFilter = () => {}
+  onFilter = () => {},
+  currentPage = 1,
+  itemsPerPage = 10,
+  totalItems = 0,
+  onPageChange = () => {},
+  showPagination = false
 }) => {
-  // Default action buttons if showActions is true
   const defaultActions = [
     {
       icon: eyeIcon,
@@ -41,8 +46,12 @@ const GlobalTable = ({
       className: "text-red-600 hover:text-red-900"
     }
   ];
+  
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = data.slice(startIndex, endIndex);
 
-  // Render cell content based on column type
   const renderCellContent = (item, column) => {
     const value = item[column.key];
     
@@ -81,7 +90,7 @@ const GlobalTable = ({
               <button 
                 key={index}
                 onClick={() => action.onClick(item)}
-                className={action.className || "text-gray-600 hover:text-gray-900"}
+                className={`${action.className || "text-gray-600 hover:text-gray-900"} cursor-pointer`}
                 title={action.alt || action.title}
               >
                 <img src={action.icon} alt={action.alt || action.title} className="w-[20px] h-[20px]" />
@@ -90,7 +99,7 @@ const GlobalTable = ({
               <button 
                 key={index}
                 onClick={() => action.onClick(item)}
-                className={action.className}
+                className={`${action.className} cursor-pointer`}
                 title={action.alt}
               >
                 <img src={action.icon} alt={action.alt} className="w-[20px] h-[20px]" />
@@ -163,8 +172,8 @@ const GlobalTable = ({
               })}
             </tr>
           </thead>
-          <tbody className="bg-white">
-            {data.map((item, rowIndex) => (
+          <tbody>
+            {paginatedData.map((item, rowIndex) => (
               <tr key={rowIndex} className="border-b-4 border-gray-100 hover:bg-gray-50">
                 {columns.map((column, colIndex) => {
                   const getAlignmentClass = (align) => {
@@ -194,6 +203,18 @@ const GlobalTable = ({
       {data.length === 0 && (
         <div className="text-center py-8">
           <p className="text-gray-500">No data available</p>
+        </div>
+      )}
+      
+      {showPagination && data.length > 0 && (
+        <div className=" bg-gray-50">
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            onPageChange={onPageChange}
+          />
         </div>
       )}
     </div>
