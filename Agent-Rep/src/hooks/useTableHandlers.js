@@ -1,10 +1,12 @@
 
 import { useState } from 'react';
+import { useDeleteAgentMutation } from '../store/api/deleteAgentApi';
 
 export const useTableHandlers = () => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState(null);
+  const [deleteAgent, { isLoading: isDeleting }] = useDeleteAgentMutation();
 
   const handleView = (item) => {
     console.log("View agent:", item);
@@ -33,10 +35,19 @@ export const useTableHandlers = () => {
     setSelectedAgent(null);
   };
 
-  const confirmDelete = () => {
-    console.log("Confirming delete for agent:", selectedAgent);
-    // TODO: Integrate with delete API
-    closeDeleteModal();
+  const confirmDelete = async () => {
+    if (!selectedAgent) return;
+    
+    try {
+      console.log("Confirming delete for agent:", selectedAgent);
+      await deleteAgent(selectedAgent.id).unwrap();
+      console.log("Agent deleted successfully");
+      closeDeleteModal();
+      // You might want to refresh the data here or show a success message
+    } catch (error) {
+      console.error("Failed to delete agent:", error);
+      // You might want to show an error message here
+    }
   };
 
   return {
@@ -48,6 +59,7 @@ export const useTableHandlers = () => {
     selectedAgent,
     closeViewModal,
     closeDeleteModal,
-    confirmDelete
+    confirmDelete,
+    isDeleting
   };
 };
