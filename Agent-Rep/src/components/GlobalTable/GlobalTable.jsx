@@ -92,7 +92,7 @@ const GlobalTable = ({
               <button 
                 key={index}
                 onClick={() => action.onClick(item)}
-                className={action.className || "text-gray-600 hover:text-gray-900"}
+                className={`${action.className || "text-gray-600 hover:text-gray-900"} cursor-pointer`}
                 title={action.alt || action.title}
               >
                 <img src={action.icon} alt={action.alt || action.title} className="w-[20px] h-[20px]" />
@@ -101,7 +101,7 @@ const GlobalTable = ({
               <button 
                 key={index}
                 onClick={() => action.onClick(item)}
-                className={action.className}
+                className={`${action.className} cursor-pointer`}
                 title={action.alt}
               >
                 <img src={action.icon} alt={action.alt} className="w-[20px] h-[20px]" />
