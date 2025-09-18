@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import GlobalTable from '../components/GlobalTable/GlobalTable';
 import StatsSection from '../components/StatsSection/StatsSection';
 import BasicDialog from '../components/BasicDialog/BasicDialog';
-import { useGetUsersQuery } from '../store/api/usersApi';
+import { useGetDashboardUsersQuery } from '../store/api/dashboardApi';
 import { useDashboardData } from '../hooks/useDashboardData';
-import { useTableHandlers } from '../hooks/useTableHandlers';
+import { useDashboardTableHandlers } from '../hooks/useDashboardTableHandlers';
 import { DASHBOARD_CONFIG, AGENTS_TABLE_COLUMNS } from '../constants/dashboardConstants';
 
 const Dashboard = () => {
-  const { data: usersData, error, isLoading } = useGetUsersQuery();
+  const { data: usersData, error, isLoading } = useGetDashboardUsersQuery();
   const { statsData, recentAgentsData } = useDashboardData(usersData);
   const { 
     handleView, 
@@ -20,7 +20,7 @@ const Dashboard = () => {
     closeViewModal, 
     closeDeleteModal, 
     confirmDelete 
-  } = useTableHandlers();
+  } = useDashboardTableHandlers();
   
   const [currentPage, setCurrentPage] = useState(DASHBOARD_CONFIG.PAGINATION.DEFAULT_PAGE);
   const [itemsPerPage] = useState(DASHBOARD_CONFIG.PAGINATION.ITEMS_PER_PAGE);

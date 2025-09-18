@@ -21,8 +21,8 @@ const transformUsers = (users) => {
   });
 };
 
-export const usersApi = createApi({
-  reducerPath: 'usersApi',
+export const agentsApi = createApi({
+  reducerPath: 'agentsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://dummyjson.com',
     prepareHeaders: (headers) => {
@@ -30,31 +30,22 @@ export const usersApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Users'],
+  tagTypes: ['AgentsUsers'],
   endpoints: (builder) => ({
-    getUsers: builder.query({
+    getAgentsUsers: builder.query({
       query: () => '/users',
       transformResponse: (response) => {
         const transformedUsers = transformUsers(response.users);
         
-        // Filter out deleted users from localStorage
-        const deletedIds = JSON.parse(localStorage.getItem('deletedUserIds') || '[]');
+        // Filter out deleted users from localStorage (agents-specific)
+        const deletedIds = JSON.parse(localStorage.getItem('agentsDeletedUserIds') || '[]');
         return transformedUsers.filter(user => !deletedIds.includes(user.id));
       },
-      providesTags: ['Users'],
-    }),
-    
-    getUserById: builder.query({
-      query: (id) => `/users/${id}`,
-      transformResponse: (response) => {
-        return transformUsers([response])[0];
-      },
-      providesTags: (result, error, id) => [{ type: 'Users', id }],
+      providesTags: ['AgentsUsers'],
     }),
   }),
 });
 
 export const {
-  useGetUsersQuery,
-  useGetUserByIdQuery,
-} = usersApi;
+  useGetAgentsUsersQuery,
+} = agentsApi;

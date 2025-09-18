@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { SearchBar } from '../components';
 import GlobalTable from '../components/GlobalTable/GlobalTable';
 import BasicDialog from '../components/BasicDialog/BasicDialog';
-import { useGetUsersQuery } from '../store/api/usersApi';
+import { useGetAgentsUsersQuery } from '../store/api/agentsApi';
+import { useAgentsTableHandlers } from '../hooks/useAgentsTableHandlers';
 
 const Agents = () => {
-  const navigate = useNavigate();
-  
-  const { data: usersData, error, isLoading } = useGetUsersQuery();
+  const { data: usersData, error, isLoading } = useGetAgentsUsersQuery();
+  const { 
+    handleView, 
+    handleEdit, 
+    handleDelete, 
+    viewModalOpen, 
+    deleteModalOpen, 
+    selectedAgent, 
+    closeViewModal, 
+    closeDeleteModal, 
+    confirmDelete 
+  } = useAgentsTableHandlers();
   
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -59,18 +68,6 @@ const Agents = () => {
     }
   ];
 
-  const handleView = (item) => {
-    console.log("View agent:", item);
-    navigate(`/agent/${item.id}`);
-  };
-
-  const handleEdit = (item) => {
-    console.log("Edit agent:", item);
-  };
-
-  const handleDelete = (item) => {
-    console.log("Delete agent:", item);
-  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -225,6 +222,47 @@ const Agents = () => {
             </div>
           </form>
         </BasicDialog>
+
+        {/* Delete Agent Modal for Error State */}
+        <BasicDialog
+          isOpen={deleteModalOpen}
+          onClose={closeDeleteModal}
+          title="Delete Agent"
+          size="sm"
+        >
+          {selectedAgent && (
+            <div className="space-y-4">
+              <div className="text-center">
+                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                  <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Are you sure you want to delete this agent?
+                </h3>
+                <p className="text-sm text-gray-500 mb-4">
+                  This action cannot be undone. The agent <strong>{selectedAgent.name}</strong> will be permanently removed.
+                </p>
+              </div>
+              
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={closeDeleteModal}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200 cursor-pointer"
+                >
+                  Delete Agent
+                </button>
+              </div>
+            </div>
+          )}
+        </BasicDialog>
       </div>
     );
   }
@@ -314,6 +352,47 @@ const Agents = () => {
             </button>
           </div>
         </form>
+      </BasicDialog>
+
+      {/* Delete Agent Modal */}
+      <BasicDialog
+        isOpen={deleteModalOpen}
+        onClose={closeDeleteModal}
+        title="Delete Agent"
+        size="sm"
+      >
+        {selectedAgent && (
+          <div className="space-y-4">
+            <div className="text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                Are you sure you want to delete this agent?
+              </h3>
+              <p className="text-sm text-gray-500 mb-4">
+                This action cannot be undone. The agent <strong>{selectedAgent.name}</strong> will be permanently removed.
+              </p>
+            </div>
+            
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={closeDeleteModal}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200 cursor-pointer"
+              >
+                Delete Agent
+              </button>
+            </div>
+          </div>
+        )}
       </BasicDialog>
     </div>
   );
