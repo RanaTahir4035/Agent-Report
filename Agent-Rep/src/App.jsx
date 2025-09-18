@@ -28,13 +28,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Public route */}
         <Route 
           path="/login" 
           element={user ? <Navigate to="/dashboard" replace /> : <Login />} 
         />
         
-        {/* Protected routes */}
         <Route path="/" element={
           <ProtectedRoute>
             <Layout>
@@ -75,7 +73,6 @@ function App() {
           </ProtectedRoute>
         } />
         
-        {/* Catch all route */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>

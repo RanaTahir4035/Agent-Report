@@ -16,7 +16,6 @@ export const useTableHandlers = () => {
 
   const handleEdit = (item) => {
     console.log("Edit agent:", item);
-    // TODO: Implement edit functionality
   };
 
   const handleDelete = (item) => {
@@ -43,10 +42,8 @@ export const useTableHandlers = () => {
       await deleteAgent(selectedAgent.id).unwrap();
       console.log("Agent deleted successfully");
       closeDeleteModal();
-      // You might want to refresh the data here or show a success message
     } catch (error) {
       console.error("Failed to delete agent:", error);
-      // You might want to show an error message here
     }
   };
 

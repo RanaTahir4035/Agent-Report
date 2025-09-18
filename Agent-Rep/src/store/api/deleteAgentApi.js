@@ -11,17 +11,14 @@ export const deleteAgentApi = createApi({
         url: `/users/${id}`,
         method: 'DELETE',
       }),
-      // Instead of invalidating, we'll handle the response manually
       onQueryStarted: async (id, { dispatch, queryFulfilled }) => {
         try {
           await queryFulfilled;
           
-          // Store deleted ID in localStorage to persist across refreshes
           const deletedIds = JSON.parse(localStorage.getItem('deletedUserIds') || '[]');
           deletedIds.push(id);
           localStorage.setItem('deletedUserIds', JSON.stringify(deletedIds));
           
-          // Manually remove the user from the cache
           dispatch(
             usersApi.util.updateQueryData('getUsers', undefined, (draft) => {
               return draft.filter(user => user.id !== id);

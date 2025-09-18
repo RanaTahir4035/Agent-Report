@@ -30,7 +30,6 @@ const Dashboard = () => {
   };
 
 
-  // Render content based on API state
   const renderContent = () => {
     if (isLoading) {
       return (
@@ -90,7 +89,6 @@ const Dashboard = () => {
       
       {renderContent()}
 
-      {/* View Agent Modal */}
       <BasicDialog
         isOpen={viewModalOpen}
         onClose={closeViewModal}
@@ -132,7 +130,6 @@ const Dashboard = () => {
         )}
       </BasicDialog>
 
-      {/* Delete Agent Modal */}
       <BasicDialog
         isOpen={deleteModalOpen}
         onClose={closeDeleteModal}

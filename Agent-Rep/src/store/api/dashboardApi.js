@@ -37,7 +37,6 @@ export const dashboardApi = createApi({
       transformResponse: (response) => {
         const transformedUsers = transformUsers(response.users);
         
-        // Filter out deleted users from localStorage (dashboard-specific)
         const deletedIds = JSON.parse(localStorage.getItem('dashboardDeletedUserIds') || '[]');
         return transformedUsers.filter(user => !deletedIds.includes(user.id));
       },

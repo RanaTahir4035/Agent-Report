@@ -15,12 +15,10 @@ export const deleteAgentsAgentApi = createApi({
         try {
           await queryFulfilled;
           
-          // Store deleted ID in localStorage (agents-specific)
           const deletedIds = JSON.parse(localStorage.getItem('agentsDeletedUserIds') || '[]');
           deletedIds.push(id);
           localStorage.setItem('agentsDeletedUserIds', JSON.stringify(deletedIds));
           
-          // Manually remove the user from the agents cache only
           dispatch(
             agentsApi.util.updateQueryData('getAgentsUsers', undefined, (draft) => {
               return draft.filter(user => user.id !== id);

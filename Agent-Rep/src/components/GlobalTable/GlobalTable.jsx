@@ -20,7 +20,6 @@ const GlobalTable = ({
   showFilters = false,
   filterOptions = [],
   onFilter = () => {},
-  // Pagination props
   currentPage = 1,
   itemsPerPage = 10,
   totalItems = 0,
@@ -48,7 +47,6 @@ const GlobalTable = ({
     }
   ];
   
-  // Calculate pagination data
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -208,7 +206,6 @@ const GlobalTable = ({
         </div>
       )}
       
-      {/* Pagination Component */}
       {showPagination && data.length > 0 && (
         <div className=" bg-gray-50">
           <Pagination 

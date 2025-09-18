@@ -15,12 +15,10 @@ export const deleteDashboardAgentApi = createApi({
         try {
           await queryFulfilled;
           
-          // Store deleted ID in localStorage (dashboard-specific)
           const deletedIds = JSON.parse(localStorage.getItem('dashboardDeletedUserIds') || '[]');
           deletedIds.push(id);
           localStorage.setItem('dashboardDeletedUserIds', JSON.stringify(deletedIds));
           
-          // Manually remove the user from the dashboard cache only
           dispatch(
             dashboardApi.util.updateQueryData('getDashboardUsers', undefined, (draft) => {
               return draft.filter(user => user.id !== id);

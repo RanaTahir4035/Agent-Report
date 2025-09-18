@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SearchBar } from '../components';
 import GlobalTable from '../components/GlobalTable/GlobalTable';
 import BasicDialog from '../components/BasicDialog/BasicDialog';
-import { useGetAgentsUsersQuery } from '../store/api/agentsApi';
+import { useEnhancedSearchAgentsUsersQuery } from '../store/api/agentsApi';
 import { useAgentsTableHandlers } from '../hooks/useAgentsTableHandlers';
 
 const Agents = () => {
-  const { data: usersData, error, isLoading } = useGetAgentsUsersQuery();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+      setIsSearching(searchTerm.trim().length > 0);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+  
+  const { 
+    data: searchData, 
+    error: searchError, 
+    isLoading: isSearchLoading 
+  } = useEnhancedSearchAgentsUsersQuery(debouncedSearchTerm);
+  
   const { 
     handleView, 
     handleEdit, 
@@ -22,7 +40,9 @@ const Agents = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   
-  const recentAgentsData = usersData || [];
+  const recentAgentsData = searchData || [];
+  const currentError = searchError;
+  const currentLoading = isSearchLoading;
 
   const recentAgentsColumns = [
     {
@@ -72,7 +92,7 @@ const Agents = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  const [searchTerm, setSearchTerm] = useState('');
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -82,6 +102,7 @@ const Agents = () => {
   const handleSearch = (term) => {
     setSearchTerm(term);
     console.log('Searching agents for:', term);
+    console.log('Search will be performed for:', term);
   };
 
   const handleOpenModal = () => {
@@ -107,7 +128,7 @@ const Agents = () => {
     handleCloseModal();
   };
 
-  if (isLoading) {
+  if (currentLoading) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
@@ -118,7 +139,7 @@ const Agents = () => {
     );
   }
 
-  if (error) {
+  if (currentError) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -223,7 +244,6 @@ const Agents = () => {
           </form>
         </BasicDialog>
 
-        {/* Delete Agent Modal for Error State */}
         <BasicDialog
           isOpen={deleteModalOpen}
           onClose={closeDeleteModal}
@@ -288,7 +308,7 @@ const Agents = () => {
       <GlobalTable
         data={recentAgentsData}
         columns={recentAgentsColumns}
-        title="Recent Agents"
+        title={isSearching && debouncedSearchTerm.trim().length > 0 ? "Search Results" : "Recent Agents"}
         showActions={true}
         onView={handleView}
         onEdit={handleEdit}
@@ -354,7 +374,6 @@ const Agents = () => {
         </form>
       </BasicDialog>
 
-      {/* Delete Agent Modal */}
       <BasicDialog
         isOpen={deleteModalOpen}
         onClose={closeDeleteModal}

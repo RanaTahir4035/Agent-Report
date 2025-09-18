@@ -15,7 +15,6 @@ export const useDashboardTableHandlers = () => {
 
   const handleEdit = (item) => {
     console.log("Edit agent from Dashboard:", item);
-    // TODO: Implement edit functionality for Dashboard
   };
 
   const handleDelete = (item) => {
@@ -42,10 +41,8 @@ export const useDashboardTableHandlers = () => {
       await deleteAgent(selectedAgent.id).unwrap();
       console.log("Agent deleted successfully from Dashboard");
       closeDeleteModal();
-      // You might want to refresh the data here or show a success message
     } catch (error) {
       console.error("Failed to delete agent from Dashboard:", error);
-      // You might want to show an error message here
     }
   };
 
