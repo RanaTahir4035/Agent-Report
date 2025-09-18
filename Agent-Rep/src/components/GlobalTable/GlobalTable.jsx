@@ -20,6 +20,7 @@ const GlobalTable = ({
   showFilters = false,
   filterOptions = [],
   onFilter = () => {},
+  // Pagination props
   currentPage = 1,
   itemsPerPage = 10,
   totalItems = 0,
@@ -47,6 +48,7 @@ const GlobalTable = ({
     }
   ];
   
+  // Calculate pagination data
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -188,7 +190,7 @@ const GlobalTable = ({
                   return (
                     <td 
                       key={colIndex}
-                      className={`px-2 sm:px-4 py-4 text-sm ${getAlignmentClass(column.align)} ${column.textColor || 'text-gray-900'}`}
+                      className={`px-2 sm:px-4 py-4 md:text-sm text-xs ${getAlignmentClass(column.align)} ${column.textColor || 'text-gray-900'}`}
                     >
                       {renderCellContent(item, column)}
                     </td>
@@ -206,6 +208,7 @@ const GlobalTable = ({
         </div>
       )}
       
+      {/* Pagination Component */}
       {showPagination && data.length > 0 && (
         <div className=" bg-gray-50">
           <Pagination 
