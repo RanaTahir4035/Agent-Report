@@ -48,7 +48,13 @@ const Sidebar = ({ onClose }) => {
   return (
     <aside className="w-55 bg-white h-screen flex flex-col border-r border-gray-200 shadow-lg">
       <div className="p-6 flex items-center justify-center my-6 relative">
-        <img src={userHeadset} alt="userHeadset" className="w-[36px] h-[36px]" />
+        <button
+          onClick={() => handleItemClick('/dashboard')}
+          className="flex items-center justify-center p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+          aria-label="Go to Dashboard"
+        >
+          <img src={userHeadset} alt="userHeadset" className="w-[36px] h-[36px]" />
+        </button>
         
         {onClose && (
           <button

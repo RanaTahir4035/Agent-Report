@@ -56,15 +56,15 @@ const AgentViewReport = () => {
       badgeClass: (value) => {
         switch(value) {
           case 'Excellent':
-            return 'bg-green-100 text-green-800';
+            return 'bg-[#34C759] text-white w-[86px] text-center';
           case 'Good':
-            return 'bg-blue-100 text-blue-800';
+            return 'bg-[#007AFF] text-white w-[86px] text-center';
           case 'Average':
-            return 'bg-yellow-100 text-yellow-800';
+            return 'bg-[#FFCC00] text-white w-[86px] text-center';
           case 'Poor':
-            return 'bg-red-100 text-red-800';
+            return 'bg-red-100 text-red-800 w-[86px] text-center';
           default:
-            return 'bg-gray-100 text-gray-800';
+            return 'bg-gray-100 text-gray-800 w-[86px] text-center';
         }
       },
       align: 'start'
@@ -97,8 +97,8 @@ const AgentViewReport = () => {
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base font-semibold text-[#202224]">Agent Name</p>
-              <p className="text-base font-weight-400 text-[#202224] mt-1">Total Calls Analyzed</p>
+              <p className="text-base sm:text-xl font-bold text-[#202224]">Agent Name</p>
+              <p className="text-xs font-weight-400 text-[#757575]">Total Calls Analyzed</p>
             </div>
           </div>
         </div>
@@ -106,8 +106,8 @@ const AgentViewReport = () => {
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base font-semibold text-[#202224]">Total Calls</p>
-              <p className="text-base font-weight-400 text-[#202224] mt-1">Failed Calls</p>
+              <p className="text-base sm:text-xl font-bold text-[#202224]">Total Calls</p>
+              <p className="text-xs font-weight-400 text-[#757575]">Failed Calls</p>
             </div>
           </div>
         </div>
@@ -115,8 +115,8 @@ const AgentViewReport = () => {
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base font-semibold text-[#202224]">Successful Calls</p>
-              <p className="text-base font-weight-400 text-[#202224] mt-1">Average Call Quality Score</p>
+              <p className="text-base sm:text-xl font-bold text-[#202224]">Successful Calls</p>
+              <p className="text-xs font-weight-400 text-[#757575]">Average Call Quality Score</p>
             </div>
           </div>
         </div>
@@ -124,8 +124,8 @@ const AgentViewReport = () => {
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base font-semibold text-[#202224]">Failed Calls</p>
-              <p className="text-base font-weight-400 text-[#202224] mt-1">Average Call Duration</p>
+              <p className="text-base sm:text-xl font-bold text-[#202224]">Failed Calls</p>
+              <p className="text-xs font-weight-400 text-[#757575]">Average Call Duration</p>
             </div>
           </div>
         </div>
@@ -133,23 +133,23 @@ const AgentViewReport = () => {
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base font-semibold text-[#202224]">Average Score</p>
-              <p className="text-base font-weight-400 text-[#202224] mt-1">Total Agents</p>
+              <p className="text-base sm:text-xl font-bold text-[#202224]">Average Score</p>
+              <p className="text-xs font-weight-400 text-[#757575]">Total Agents</p>
             </div>
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base font-semibold text-[#202224]">Average Call Duration</p>
-                <p className="text-base font-weight-400 text-[#202224] mt-1">Total Agents</p>
+              <p className="text-base sm:text-xl font-bold text-[#202224]">Average Call Duration</p>
+              <p className="text-xs font-weight-400 text-[#757575]">Total Agents</p>
             </div>
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base font-semibold text-[#202224]">Status</p>
+              <p className="text-base sm:text-xl font-bold text-[#202224]">Status</p>
               <p className="text-xs font-weight-400 bg-[#34C759] text-white w-[86px] text-center rounded-full py-1">Excellent</p>
             </div>
           </div>
