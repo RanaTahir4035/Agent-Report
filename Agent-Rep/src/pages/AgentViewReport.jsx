@@ -56,15 +56,15 @@ const AgentViewReport = () => {
       badgeClass: (value) => {
         switch(value) {
           case 'Excellent':
-            return 'bg-green-100 text-green-800';
+            return 'bg-[#34C759] text-white w-[86px] text-center';
           case 'Good':
-            return 'bg-blue-100 text-blue-800';
+            return 'bg-[#007AFF] text-white w-[86px] text-center';
           case 'Average':
-            return 'bg-yellow-100 text-yellow-800';
+            return 'bg-[#FFCC00] text-white w-[86px] text-center';
           case 'Poor':
-            return 'bg-red-100 text-red-800';
+            return 'bg-red-100 text-red-800 w-[86px] text-center';
           default:
-            return 'bg-gray-100 text-gray-800';
+            return 'bg-gray-100 text-gray-800 w-[86px] text-center';
         }
       },
       align: 'start'
