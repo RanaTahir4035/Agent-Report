@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useDeleteDashboardAgentMutation } from '../store/api/deleteDashboardAgentApi';
+import { useDeleteAgentMutation } from '../store/api/deleteAgentApi';
 
 export const useDashboardTableHandlers = () => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState(null);
-  const [deleteAgent, { isLoading: isDeleting }] = useDeleteDashboardAgentMutation();
+  const [deleteAgent, { isLoading: isDeleting }] = useDeleteAgentMutation();
 
   const handleView = (item) => {
     console.log("View agent from Dashboard:", item);

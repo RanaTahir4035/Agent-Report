@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDeleteAgentsAgentMutation } from '../store/api/deleteAgentsAgentApi';
+import { useDeleteAgentMutation } from '../store/api/deleteAgentApi';
 
 export const useAgentsTableHandlers = () => {
   const navigate = useNavigate();
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState(null);
-  const [deleteAgent, { isLoading: isDeleting }] = useDeleteAgentsAgentMutation();
+  const [deleteAgent, { isLoading: isDeleting }] = useDeleteAgentMutation();
 
   const handleView = (item) => {
     console.log("View agent from Agents page:", item);
